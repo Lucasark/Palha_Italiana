@@ -1,8 +1,10 @@
-#include "grafo.h" 
+#include "grafo.h"
+#include "pilha.h"
+#include "fila.h"
 
 int main() {
 
-	int vert; //Criar Grafo?
+	int vert;
 	scanf("%d", &nVert); 
 	Grafo g = criaGrafo(nVert);
 
@@ -11,8 +13,10 @@ int main() {
 		scanf("%d", &v);
 		scanf("%d", &u); 
 		insereAresta(&g, v, u);
-	} while((k != -1) && (j != -1));
-	buscaLargura(g, 0);
-	buscaProfundidade(g, 0);
+	} while((v != -1) && (u != -1));
+	int k;
+	scanf("%d", &k);
+	buscaLargura(g, k);
+	buscaProfundidade(g, k);
 	return 0;
 }
