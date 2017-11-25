@@ -2,9 +2,8 @@
 #include "pilha.h"
 #include "fila.h"
 
-int main() {
-
-	int vert;
+void main() {
+	int nVert;
 	scanf("%d", &nVert); 
 	Grafo g = criaGrafo(nVert);
 
@@ -18,5 +17,5 @@ int main() {
 	scanf("%d", &k);
 	buscaLargura(g, k);
 	buscaProfundidade(g, k);
-	return 0;
+	return;
 }

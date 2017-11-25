@@ -25,16 +25,16 @@ void buscaLargura(Grafo g, int s){
 	Fila F;
 	int Vis[g.u];
 	int Adj[g.u][g.u];
-	push(&F,s);
+	pushFila(&F,s);
 	Vis[s] = 1;
 	printf("%d",s);
 
-	while(!filafazia(F)){
-		int v = pop(F);
+	while(!filaVazia(F)){
+		int v = popFila(&F);
 		int i;
 		for(i=0; i<g.u; i++){
 			if (Adj[v][i] == 1 && Vis[i] == 0) {
-				push(F, i);
+				pushFila(&F, i);
 				Vis[i] = 1;
 				printf("%d", i);
 			}
@@ -48,15 +48,15 @@ void buscaProfundidade(Grafo g, int s){
 	Pilha P;
 	int Adj[g.u][g.u];
 	int Vis[g.u];
-	push(&P, s);
-	while (!empty(P)) {
-		int v = pop(P);
+	pushPilha(&P, s);
+	while (!pilhaVazia(P)) {
+		int v = popPilha(&P);
 		if (Vis[v] == 0) {
 			Vis[v] = 1;
 			printf("%d", v);
 			int i;
 			for (i=0; i<g.u; i++) {
-				if (Adj[v][i] == 1) push(&P, i);
+				if (Adj[v][i] == 1) pushPilha(&P, i);
 			}
 		}
 	}
