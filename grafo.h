@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include "pilha.h"
+#include "fila.h"
 
 typedef struct no {
   int v; /* Vértice */
