@@ -5,15 +5,15 @@
 #include "fila.h"
 
 typedef struct no {
-  int v; /* Vértice */
-  struct no* prox;
+	int vert;
+	struct no*vertProx;
 } No;
 
 typedef struct grafo {
-  int u;      /* Número de nós */
-  No** lista_adj;
+	int totalArcos;
+	int maxVertices;
+	No** Lista;
 } Grafo;
-
 
 Grafo criaGrafo(int n);
 void insereAresta(Grafo *g, int v, int u);

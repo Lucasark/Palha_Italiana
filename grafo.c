@@ -2,65 +2,95 @@
 
 Grafo criaGrafo(int n){
 	Grafo g;
-	g.lista_adj = calloc(n, sizeof(No*));
-	g.u = n;
+	g.Lista = (No**)malloc(n*sizeof(No*));
+	g.maxVertices=n;
+	g.totalArcos=0;
+	for(int i=0; i<n;i++){
+//		g.Lista[i]=(No*)malloc(sizeof(No));
+		g.Lista[i]=NULL;
+	}
 	return g;
-}
+  }
 
 void insereAresta(Grafo *g, int v, int u){
-  No **ap_l = &g->lista_adj[v];
-  while (*ap_l != NULL && (*ap_l)->v < u)
-    ap_l = &(*ap_l)->prox;
-  if (*ap_l == NULL || (*ap_l)->v != u) {
-    No* n = malloc(sizeof(No));
-    n->v = u;
-    n->prox = *ap_l;
-    *ap_l = n;
-  }
-  return;
+	No*novoV = (No*)malloc(sizeof(No));//vert novo
+	novoV->vert = u;
+	novoV->vertProx = NULL;
+
+	No*temp = g->Lista[v];
+
+	if (temp == NULL){
+		g->Lista[v] = novoV;
+	}
+	else {
+		while (temp->vertProx != NULL){//Andar pelo vertice
+			temp = temp->vertProx;
+		}
+		temp->vertProx = novoV;
+	}
+	g->totalArcos++;
+	return;
 }
-//0 1 2 3 4
 
 void buscaLargura(Grafo g, int s){
-	Fila F;
-	int Vis[g.u];
-	int Adj[g.u][g.u];
+	printf("\nBusca em Largura: ");
+	No*visitados = (No*)malloc(g.maxVertices*sizeof(No));//No para os visitados
+
+	for(int i = 0; i < g.maxVertices; i++){//Colocar todos os vertecer como não visitados
+		visitados[i].vert = 0;
+	}
+
+	Fila F = criaFila();//Criar a Fila
+
+	No*q;//No aux de percorrer
+
 	pushFila(&F,s);
-	Vis[s] = 1;
+	visitados[s].vert = 1; //Colocar o 's' como visitado
 	printf("%d",s);
 
+	int out;
 	while(!filaVazia(F)){
-		int v = popFila(&F);
-		int i;
-		for(i=0; i<g.u; i++){
-			if (Adj[v][i] == 1 && Vis[i] == 0) {
-				pushFila(&F, i);
-				Vis[i] = 1;
-				printf("%d", i);
+		out = popFila(&F);
+		q = g.Lista[out];
+		while(q != NULL){
+			if (visitados[q->vert].vert == 0) {
+				visitados[q->vert].vert = 1;
+				pushFila(&F, q->vert);
+				printf(" %d", q->vert);
 			}
+			q = q->vertProx;
 		}
-
-	return;
 	}
+	return;
 }
 
 void buscaProfundidade(Grafo g, int s){
-	Pilha P;
-	int Adj[g.u][g.u];
-	int Vis[g.u];
-	pushPilha(&P, s);
+	printf("\nBusca em Profundidade:");
+	No*visitados = (No*)malloc(g.maxVertices*sizeof(No));//No para os visitados
+
+	for(int i = 0; i < g.maxVertices; i++){//Colocar todos os vertecer como não visitados
+		visitados[i].vert = 0;
+	}
+
+	Pilha P = criaPilha();//Criar a Fila
+
+	No*q;//No aux de percorrer
+
+	int out;
+
+	pushPilha(&P,s);
+
 	while (!pilhaVazia(P)) {
-		int v = popPilha(&P);
-		if (Vis[v] == 0) {
-			Vis[v] = 1;
-			printf("%d", v);
-			int i;
-			for (i=0; i<g.u; i++) {
-				if (Adj[v][i] == 1) pushPilha(&P, i);
+		out = popPilha(&P);
+		if (visitados[out].vert == 0) {
+			visitados[out].vert = 1;
+			for (q = g.Lista[out]; q != NULL; q = q->vertProx){//Colocar os vertices na pilha
+				if (visitados[q->vert].vert == 0){
+					pushPilha(&P, q->vert);
+				}
 			}
+		printf(" %d", out);
 		}
 	}
-	return;
+	//20135467
 }
-
-
